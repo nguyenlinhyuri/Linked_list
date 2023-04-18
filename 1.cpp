@@ -26,69 +26,52 @@ struct Node
 void print(Node* head)
 {
     // Your code here
-    Node* p = head;
-    while (p != NULL){
-        cout << p->value << " ";
-        p = p->next;
+    while (head != NULL) {
+        cout << head->value << " ";
+        head = head->next;
     }
 }
 
 Node* insertHead(Node* head, int value)
 {
     // Your code here
-    Node* tmp = new Node;
-    tmp->value = value;
-    tmp->next = head;
-    head = tmp;
-    return head;
+    Node* new_node = new Node();
+    new_node->value = value;
+    new_node->next = head;
+    return new_node;
 }
 
 Node* insertTail(Node* head, int value)
 {
     // Your code here
-    Node* p = head;
-    if (head == NULL){
-        Node* tmp = new Node;
-        tmp->next = NULL;
-        tmp->value = value;
-        return tmp;
-    }
-    while (p->next != NULL){
-        p = p->next;
-    }
-    Node* tmp = new Node;
-    tmp->value = value;
-    tmp->next = NULL;
-    p->next = tmp;
+    Node* new_node = new Node();
+    new_node->value = value;
+    if (head == NULL) return new_node;
+    Node* i = head;
+    for (; i->next != NULL; i=i->next);
+    i->next = new_node;
     return head;
 }
 
 Node* deleteNode(Node* head, int pos)
 {
     // Your code here
-    if (pos == 0){
-        Node* tmp = head;
-        head = head->next;
-        delete(tmp);
-        return head;
+    if (pos == 0) {
+        Node* next = head->next;
+        delete head;
+        return next;
     }
-    Node* p = head;
-    for (int i=0; i<pos-1; i++){
-        p = p->next;
-    }
-    Node* tmp = p->next;
-    p->next = tmp->next;
-    delete(tmp);
+    Node* i = head;
+    while (--pos) i = i->next;
+    Node* deleted = i->next;
+    i->next = deleted->next;
+    delete deleted;
     return head;
 }
 
 int getValue(Node* head, int pos)
 {
     // Your code here
-    Node* p = head;
-    for (int i=0; i<pos; i++){
-        p = p->next;
-    }
-    return p->value;
-    //return 0; // Change this line
+    while (pos--) head = head->next;
+    return head->value;
 }
